@@ -107,14 +107,14 @@ def run_ModelicaSystem():
     mod.buildModel()
 
     try:
-        mod.setSimulationOptions(stopTime=100)
+        mod.setSimulationOptions(["stopTime=86400", "interval=900"])
     except Exception:
-        mod.setSimulationOptions("stopTime=100")
+        mod.setSimulationOptions(stopTime=86400, interval=900)
 
     # Run simulations
     mod.simulate()
 
-    solution_list = ['time', 'WetterBus.TDryBul']
+    solution_list = ['time', 'heatStorageVariablePorts_central.Heat_loss']
     solution_data = mod.getSolutions(solution_list)
 
     # Create DataFrame from results
@@ -123,7 +123,7 @@ def run_ModelicaSystem():
 
     # evaluate some random variable just to see if the simulation acutally
     # finished:
-    return data['WetterBus.TDryBul'].mean() > 0
+    return data['heatStorageVariablePorts_central.Heat_loss'].mean() > 0
 
 
 def setup():
@@ -134,7 +134,7 @@ def setup():
     # Set loggers of imported modules:
     log_level = 'DEBUG'
     # log_level = 'INFO'
-#    log_level = 'WARNING'
+    # log_level = 'WARNING'
     logger.setLevel(level=log_level.upper())  # Logger for this module
     logging.getLogger('OMPython').setLevel(level=log_level.upper())
 

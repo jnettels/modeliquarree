@@ -42,9 +42,9 @@ jobs:
         sudo apt install openmodelica
         # Install optional Modelica libraries (most have not been tested with OpenModelica)
         # for PKG in `apt-cache search "omlib-.*" | cut -d" " -f1`; do sudo apt-get install -y "$PKG"; done
-        # sudo apt install omlib-modelica-synchronous-0.92.1
-        # sudo apt install omlib-ncdatareader2-2.4.0
-        # sudo apt install omlib-modelica-devicedrivers-1.5.0
+        sudo apt install omlib-modelica-synchronous-0.92.1
+        sudo apt install omlib-ncdatareader2-2.4.0
+        sudo apt install omlib-modelica-devicedrivers-1.5.0
 
     - name: Install latest AixLib
       if: runner.os == 'Linux'  # Only required on Linux
