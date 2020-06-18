@@ -97,6 +97,7 @@ def run_ModelicaSystem():
                          modelName=model,
                          commandLineOptions='-d=newInst')
 
+    # Adapt the path of all the input files
     cmd = '''setComponentModifierValue(
              Q100_DistrictModel.Simulations.SIM_RI_Schema,
              inputData.Pfad,
@@ -107,9 +108,9 @@ def run_ModelicaSystem():
     mod.buildModel()
 
     try:
-        mod.setSimulationOptions(["stopTime=86400", "interval=900"])
+        mod.setSimulationOptions(["stopTime=86400", "stepSize=900"])
     except Exception:
-        mod.setSimulationOptions(stopTime=86400, interval=900)
+        mod.setSimulationOptions(stopTime=86400, stepSize=900)
 
     # Run simulations
     mod.simulate()
@@ -121,9 +122,8 @@ def run_ModelicaSystem():
     data = pd.DataFrame(data=solution_data.T, columns=solution_list)
     print(data)
 
-    # evaluate some random variable just to see if the simulation acutally
-    # finished:
-    return data['heatStorageVariablePorts_central.Heat_loss'].mean() > 0
+    # Evaluate some any variable just to see if the simulation  finished:
+    return data['heatStorageVariablePorts_central.Heat_loss'].mean() < 0
 
 
 def setup():
