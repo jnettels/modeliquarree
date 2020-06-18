@@ -1,8 +1,4 @@
-# GitHub actions designed for the heatpump testbench project
-# We basically walk two paths here, depending on runner.os (Windows / Linux):
-# 1. On Linux, it is easy to automatically install OpenModelica,
-#    so we can test the complete process and run a Modelica model
-# 2. On Windows, instead we run the simulation with the stored FMU
+# GitHub action designed for the modelica district model of Quarree100
 
 name: District Model Tests
 
@@ -46,9 +42,9 @@ jobs:
         sudo apt install openmodelica
         # Install optional Modelica libraries (most have not been tested with OpenModelica)
         # for PKG in `apt-cache search "omlib-.*" | cut -d" " -f1`; do sudo apt-get install -y "$PKG"; done
-        sudo apt install omlib-modelica-synchronous-0.92.1
-        sudo apt install omlib-ncdatareader2-2.4.0
-        sudo apt install omlib-modelica-devicedrivers-1.5.0
+        # sudo apt install omlib-modelica-synchronous-0.92.1
+        # sudo apt install omlib-ncdatareader2-2.4.0
+        # sudo apt install omlib-modelica-devicedrivers-1.5.0
 
     - name: Install latest AixLib
       if: runner.os == 'Linux'  # Only required on Linux
@@ -70,14 +66,11 @@ jobs:
 
     - name: Install OMPython
       run: |
-        # Install OMPython
         python -m pip install -U https://github.com/OpenModelica/OMPython/archive/master.zip
 
-        # For python FMI interaction, install pyfmi
-        # conda install -c conda-forge pyfmi assimulo -y
-
-    - name: Run the test script
+    - name: Run the simulation test script
       run: |
+        # Perform the actual simulation via Python
         python ./district_model/python/run_test.py
 
     - name: Lint with flake8
